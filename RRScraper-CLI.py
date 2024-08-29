@@ -11,8 +11,6 @@ iridi.presets.wiretap.print("RRScraper")
 iridi.presets.wiretap.print("Single URL or List")
 iridi.presets.wiretap.print("Royal Road URL (In https:// format) :")
 url = input()
-iridi.presets.wiretap.print("Directory: ")
-directory = input()
 
 browser.get(url)
 
@@ -32,9 +30,10 @@ class Ebook:
 
         for i in tqdm(range(0, len(links))):
             browser.get(links[i])
-            womper = browser.find_element(By.XPATH,
-                                          "/html/body/div[3]/div/div/div/div/div[2]/div[2]/div[3]").get_attribute(
-                "innerHTML")
+            
+            womper = browser.find_element(By.CLASS_NAME,
+                                          "chapter-inner").get_attribute(
+                 "innerHTML")
 
             try:
                 my_first_chapter = pypub.create_chapter_from_html(womper.encode("utf-8"),
@@ -45,8 +44,8 @@ class Ebook:
 
                 pass
 
-        Output.create('./' + directory + url[url.rfind("/"):len(url)].replace("-", " ").title())
-        iridi.presets.wiretap.print("Saved to " + directory)
+        Output.create('./' + url[url.rfind("/"):len(url)].replace("-", " ").title())
+        iridi.presets.wiretap.print("Saved")
 
 
 no = 0
